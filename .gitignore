@@ -1,0 +1,24 @@
+# Binaries
+ursus
+ursus.exe
+*.exe
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Workspace
+.vscode
+.idea
+.gemini
+
+# Application data (local)
+data/
+ursus.db
+ursus.db-journal
+ursus.db-wal
+ursus.db-shm
+
+# Build
+bin/
+obj/
