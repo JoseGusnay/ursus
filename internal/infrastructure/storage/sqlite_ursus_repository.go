@@ -224,15 +224,16 @@ func (r *SQLiteUrsusRepository) GetByTopicKey(ctx context.Context, topicKey stri
 func (r *SQLiteUrsusRepository) scanUrsus(rows *sql.Rows) (*entity.Ursus, error) {
 	u := &entity.Ursus{}
 	var sessionID, topicKey, promptID *string
-	var lastSeen, deleted sql.NullTime
+	var lastSeen, updated, deleted sql.NullTime
 	err := rows.Scan(
 		&u.ID, &u.Content, &u.Metadata, &sessionID, &topicKey, &promptID,
 		&u.Scope, &u.DuplicateCount, &u.RevisionCount,
-		&u.CreatedAt, &u.UpdatedAt, &lastSeen, &deleted,
+		&u.CreatedAt, &updated, &lastSeen, &deleted,
 	)
 	if err != nil {
 		return nil, err
 	}
+	u.UpdatedAt = updated.Time
 	if sessionID != nil {
 		u.SessionID = *sessionID
 	}
@@ -254,11 +255,11 @@ func (r *SQLiteUrsusRepository) scanUrsus(rows *sql.Rows) (*entity.Ursus, error)
 func (r *SQLiteUrsusRepository) scanUrsusRow(row *sql.Row) (*entity.Ursus, error) {
 	u := &entity.Ursus{}
 	var sessionID, topicKey, promptID *string
-	var lastSeen, deleted sql.NullTime
+	var lastSeen, updated, deleted sql.NullTime
 	err := row.Scan(
 		&u.ID, &u.Content, &u.Metadata, &sessionID, &topicKey, &promptID,
 		&u.Scope, &u.DuplicateCount, &u.RevisionCount,
-		&u.CreatedAt, &u.UpdatedAt, &lastSeen, &deleted,
+		&u.CreatedAt, &updated, &lastSeen, &deleted,
 	)
 	if err == sql.ErrNoRows {
 		return nil, nil
@@ -266,6 +267,7 @@ func (r *SQLiteUrsusRepository) scanUrsusRow(row *sql.Row) (*entity.Ursus, error
 	if err != nil {
 		return nil, err
 	}
+	u.UpdatedAt = updated.Time
 	if sessionID != nil {
 		u.SessionID = *sessionID
 	}
