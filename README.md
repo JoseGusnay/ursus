@@ -36,9 +36,12 @@ Ursus resuelve el problema de "¿dónde se guardan los datos?" con un enfoque in
 
 ---
 
-## 🤖 Integración con Agentes (MCP)
+## 🤖 Configuración de Agentes (Agent Setup)
 
-Ursus es un servidor **MCP (Model Context Protocol)**. Para que un agente como **Claude Desktop** lo use, añade esto a tu archivo de configuración (`claude_desktop_config.json`):
+Para que Ursus sea útil, debes conectarlo a tus herramientas favoritas. Sigue estos pasos según tu agente:
+
+### 1. Claude Desktop
+Añade lo siguiente a tu archivo `claude_desktop_config.json` (ubicado en `%APPDATA%\Claude\config\` en Windows):
 
 ```json
 {
@@ -50,6 +53,18 @@ Ursus es un servidor **MCP (Model Context Protocol)**. Para que un agente como *
   }
 }
 ```
+
+### 2. Cursor / Windsurf
+1. Ve a **Settings** -> **Features** -> **MCP**.
+2. Añade un nuevo servidor:
+   - **Name**: `ursus`
+   - **Type**: `command`
+   - **Command**: `ursus mcp`
+
+### 3. VS Code (Copilot / Claude Code)
+Si usas extensiones que consumen MCP:
+1. Asegúrate de que `ursus` esté en tu `$PATH`.
+2. Registra el comando `ursus mcp` en la sección de servidores MCP de la extensión.
 
 ---
 
