@@ -16,6 +16,9 @@ Ursus se distribuye como un **binario único y autocontenido**. Esto significa q
 2. Descarga la versión correspondiente a tu sistema operativo (Windows, Linux o macOS).
 3. Descomprime el archivo y coloca el ejecutivo en una carpeta que esté en tu PATH (ej. `C:\Users\TuUsuario\bin\`).
 
+> [!NOTE]
+> **Aviso de Windows SmartScreen**: Al ejecutarlo por primera vez, es posible que Windows muestre un aviso de "PC protegido". Esto ocurre porque el binario no tiene una firma digital comercial (común en proyectos de código abierto). Solo debes hacer clic en **"Más información"** y luego en **"Ejecutar de todas formas"**.
+
 ### Opción B: Instalación para Desarrolladores (Requiere Go)
 Si eres desarrollador y tienes Go instalado, puedes instalarlo directamente:
 ```bash
