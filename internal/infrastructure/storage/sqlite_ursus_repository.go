@@ -13,9 +13,12 @@ type SQLiteUrsusRepository struct {
 	db *sql.DB
 }
 
-// NewSQLiteUrsusRepository creates a new instance of SQLiteUrsusRepository.
 func NewSQLiteUrsusRepository(db *sql.DB) *SQLiteUrsusRepository {
 	return &SQLiteUrsusRepository{db: db}
+}
+
+func (r *SQLiteUrsusRepository) DB() *sql.DB {
+	return r.db
 }
 
 // Migrate sets up the database schema with FTS5 support.
@@ -221,10 +224,11 @@ func (r *SQLiteUrsusRepository) GetByTopicKey(ctx context.Context, topicKey stri
 func (r *SQLiteUrsusRepository) scanUrsus(rows *sql.Rows) (*entity.Ursus, error) {
 	u := &entity.Ursus{}
 	var sessionID, topicKey, promptID *string
+	var lastSeen, deleted sql.NullTime
 	err := rows.Scan(
 		&u.ID, &u.Content, &u.Metadata, &sessionID, &topicKey, &promptID,
 		&u.Scope, &u.DuplicateCount, &u.RevisionCount,
-		&u.CreatedAt, &u.UpdatedAt, &u.LastSeenAt, &u.DeletedAt,
+		&u.CreatedAt, &u.UpdatedAt, &lastSeen, &deleted,
 	)
 	if err != nil {
 		return nil, err
@@ -238,16 +242,23 @@ func (r *SQLiteUrsusRepository) scanUrsus(rows *sql.Rows) (*entity.Ursus, error)
 	if promptID != nil {
 		u.PromptID = *promptID
 	}
+	if lastSeen.Valid {
+		u.LastSeenAt = lastSeen.Time
+	}
+	if deleted.Valid {
+		u.DeletedAt = &deleted.Time
+	}
 	return u, nil
 }
 
 func (r *SQLiteUrsusRepository) scanUrsusRow(row *sql.Row) (*entity.Ursus, error) {
 	u := &entity.Ursus{}
 	var sessionID, topicKey, promptID *string
+	var lastSeen, deleted sql.NullTime
 	err := row.Scan(
 		&u.ID, &u.Content, &u.Metadata, &sessionID, &topicKey, &promptID,
 		&u.Scope, &u.DuplicateCount, &u.RevisionCount,
-		&u.CreatedAt, &u.UpdatedAt, &u.LastSeenAt, &u.DeletedAt,
+		&u.CreatedAt, &u.UpdatedAt, &lastSeen, &deleted,
 	)
 	if err == sql.ErrNoRows {
 		return nil, nil
@@ -263,6 +274,12 @@ func (r *SQLiteUrsusRepository) scanUrsusRow(row *sql.Row) (*entity.Ursus, error
 	}
 	if promptID != nil {
 		u.PromptID = *promptID
+	}
+	if lastSeen.Valid {
+		u.LastSeenAt = lastSeen.Time
+	}
+	if deleted.Valid {
+		u.DeletedAt = &deleted.Time
 	}
 	return u, nil
 }

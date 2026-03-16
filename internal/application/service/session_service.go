@@ -17,6 +17,10 @@ func NewSessionService(repo repository.SessionRepository) *SessionService {
 	return &SessionService{repo: repo}
 }
 
+func (s *SessionService) Repository() repository.SessionRepository {
+	return s.repo
+}
+
 func (s *SessionService) Start(ctx context.Context, title string) (*entity.Session, error) {
 	// Deactivate any currently active session
 	if err := s.repo.DeactivateAll(ctx); err != nil {
