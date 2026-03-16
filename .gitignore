@@ -22,3 +22,8 @@ ursus.db-shm
 # Build
 bin/
 obj/
+
+# Temporary test files
+test_gzip/
+test_sync/
+tmp_verify_*.go

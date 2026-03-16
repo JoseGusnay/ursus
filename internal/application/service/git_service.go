@@ -35,10 +35,10 @@ func (s *GitService) Init(remote string) (string, error) {
 		}
 	}
 	
-	// Create .gitignore if not exists to ensure only the DB is tracked
+	// Create .gitignore if not exists to ensure only data is tracked
 	gitignorePath := filepath.Join(s.dbDir, ".gitignore")
 	if _, err := os.Stat(gitignorePath); os.IsNotExist(err) {
-		os.WriteFile(gitignorePath, []byte("*.db-journal\n*.db-wal\n*.db-shm\n"), 0644)
+		os.WriteFile(gitignorePath, []byte("ursus.db*\n"), 0644)
 	}
 
 	return s.run("remote", "add", "origin", remote)
