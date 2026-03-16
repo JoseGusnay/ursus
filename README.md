@@ -1,78 +1,40 @@
-# 🐻 Ursus: Tu Memoria Inteligente para Agentes de IA
+# 🐻 Ursus: Tu Cerebro Externo para Agentes de IA
 
-**Ursus** es un sistema de memoria persistente de nivel profesional diseñado para agentes de IA (Cursor, Windsurf, Claude Desktop, etc.). Permite que tus asistentes recuerden decisiones, arquitecturas y lecciones aprendidas a través de múltiples sesiones y proyectos.
-
-Inspirado en Engram, pero con una arquitectura robusta en Go, optimizada para velocidad y privacidad.
+**Ursus** es un sistema de memoria persistente de nivel profesional que resuelve la amnesia de tus asistentes de IA (Cursor, Windsurf, Claude Desktop, etc.).
 
 ---
 
-## 🛠️ Instalación (¿Cómo lo uso?)
+## ⚡ Quick Start
 
-Para un "Usuario Final", Ursus se distribuye como un **binario único y autocontenido**. No necesitas instalar Go ni configurar variables del sistema a mano.
+1. **Descarga**: [Última Versión (v1.0.6)](https://github.com/JoseGusnay/ursus/releases)
+2. **Instala**: Ejecuta `.\ursus.exe setup path` en tu terminal.
+3. **Activa**: Reinicia tu terminal y usa `ursus stats`.
 
-### Opción A: Descarga Directa (Recomendado)
-1. Ve a [GitHub Releases](https://github.com/JoseGusnay/ursus/releases).
-2. Descarga `ursus_windows_amd64.exe` (o la versión para Mac/Linux).
-3. **¡Instalación Automática!**: Abre una terminal en la carpeta donde lo descargaste y ejecuta:
-   ```powershell
-   .\ursus_windows_amd64.exe setup path
-   ```
-   *Esto añade Ursus a tu PATH de Windows automáticamente. Cierra y abre la terminal para activarlo.*
-4. **Cero Complicaciones**: Ahora puedes renombrar el archivo a `ursus.exe` y usarlo desde cualquier lugar simplemente escribiendo `ursus`.
-
-> [!NOTE]
-> **Aviso de SmartScreen**: Al abrirlo por primera vez, haz clic en "Más información" -> "Ejecutar de todas formas". Es normal por ser código abierto recién compilado.
-
-### Opción B: Para Desarrolladores (Go Install)
-```bash
-go install github.com/JoseGusnay/ursus/cmd/ursus@latest
-```
+> [!TIP]
+> **¿Por qué Ursus?** A diferencia de otros sistemas, Ursus es **local-first**, incluye **redacción automática de privacidad** y es **zero-dependency**.
 
 ---
 
-## 🤖 Configuración de Agentes (Agent Setup)
+## 📚 Documentación Completa
 
-### 1. Claude Desktop
-Configúralo automáticamente con un comando:
-```bash
-ursus setup claude
-```
+Para dominar Ursus, consulta nuestras guías especializadas:
 
-### 2. Cursor / Windsurf / VS Code
-1. Ve a **Settings -> Features -> MCP**.
-2. Añade un nuevo servidor:
-   - **Name**: `ursus`
-   - **Type**: `command`
-   - **Command**: `ursus mcp`
-
----
-
-## 🏗️ Modelo de Memoria Híbrido
-
-Ursus combina lo mejor de dos mundos:
-1.  **Memoria Global**: Guardada en `~/.ursus/ursus.db`. El agente te conoce a ti y tus preferencias en cualquier PC o proyecto.
-2.  **Memoria de Proyecto**: Sincroniza conocimientos específicos del repositorio mediante archivos `.jsonl.gz` Git-friendly usando `ursus sync`.
-
----
-
-## 🎮 Comandos de la CLI
-
-| Comando | Descripción |
+| Guía | Contenido |
 | :--- | :--- |
-| `ursus stats` | Ver tu actividad, sesiones y temas recurrentes. |
-| `ursus tui` | Abre la interfaz visual azul interactiva. |
-| `ursus search` | Búsqueda semántica ultrarrápida en tu cerebro. |
-| `ursus add` | Guarda una memoria manual con tópicos. |
-| `ursus review` | Resume lo ocurrido en la sesión actual. |
-| `ursus setup` | Automatiza PATH y configuración de agentes. |
+| [🚀 Instalación](docs/instalar.md) | Guía paso a paso para Windows (Zero-Go), PATH y SmartScreen. |
+| [🤖 Guía MCP](docs/mcp_guia.md) | Cómo conectar Ursus a Cursor, Claude y otros agentes. |
+| [🛡️ Privacidad](docs/privacidad_y_seguridad.md) | Detalles sobre el motor de redacción automática y seguridad local. |
+| [🔄 Sincronización](docs/sync_y_equipo.md) | Cómo usar Ursus en equipo con Git y el comando `sync`. |
+| [💻 Referencia CLI](docs/cli_reference.md) | Manual completo de todos los comandos y banderas. |
 
 ---
 
-## ✨ Diferenciadores Clave
-- **Privacidad**: Filtra automáticamente Tokens, API Keys y datos sensibles.
-- **Higiene**: Deduplicación dinámica (no guarda basura repetida).
-- **Velocidad**: Basado en SQLite con FTS5 para búsquedas instantáneas.
-- **Portabilidad**: Un solo archivo para todo.
+## ✨ Características Clave
+
+- **Privacidad Industrial**: Oculta automáticamente API Keys y emails.
+- **Memoria Híbrida**: Combina base de datos global con sincronización por proyecto.
+- **Búsqueda Instantánea**: Motor SQLite FTS5 de alta velocidad.
+- **Interfaz Premium**: Incluye TUI interactiva para navegación visual.
 
 ---
 Developed with ❤️ by **Jose Gusnay & Antigravity**
