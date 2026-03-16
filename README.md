@@ -14,7 +14,13 @@ Ursus se distribuye como un **binario único y autocontenido**. Esto significa q
 ### Opción A: Descargar el Binario (Recomendado)
 1. Ve a la sección de [Releases de GitHub](https://github.com/JoseGusnay/ursus/releases).
 2. Descarga la versión correspondiente a tu sistema operativo (Windows, Linux o macOS).
-3. Descomprime el archivo y coloca el ejecutivo en una carpeta que esté en tu PATH (ej. `C:\Users\TuUsuario\bin\`).
+3. **¡Nuevo! Instalación Automática**: Abre una terminal en la carpeta donde descargaste el archivo y ejecuta:
+   ```bash
+   ./ursus.exe setup path
+   ./ursus.exe setup claude
+   ```
+   *Esto añadirá Ursus a tu PATH y lo configurará en Claude Desktop automáticamente.*
+4. Descomprime el archivo y coloca el ejecutivo en una carpeta que esté en tu PATH (ej. `C:\Users\TuUsuario\bin\`).
 
 > [!NOTE]
 > **Aviso de Windows SmartScreen**: Al ejecutarlo por primera vez, es posible que Windows muestre un aviso de "PC protegido". Esto ocurre porque el binario no tiene una firma digital comercial (común en proyectos de código abierto). Solo debes hacer clic en **"Más información"** y luego en **"Ejecutar de todas formas"**.

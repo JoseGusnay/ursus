@@ -314,6 +314,7 @@ func init() {
 	RootCmd.AddCommand(reviewCmd)
 	RootCmd.AddCommand(statsCmd)
 	RootCmd.AddCommand(detailCmd)
+	RootCmd.AddCommand(setupCmd)
 
 	sessionCmd.AddCommand(sessionStartCmd)
 	sessionCmd.AddCommand(sessionEndCmd)
