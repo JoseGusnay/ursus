@@ -8,7 +8,7 @@ var (
 	privateRegex = regexp.MustCompile(`(?s)<private>.*?</private>`)
 	emailRegex   = regexp.MustCompile(`[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}`)
 	// Pattern for potential API keys or tokens (e.g., sk-..., secret_..., token-...)
-	secretRegex  = regexp.MustCompile(`(?i)(sk-|secret_|token-|key-)[a-z0-9]{10,}`)
+	secretRegex  = regexp.MustCompile(`(?i)(sk-|secret_|token-|key-)[a-z0-9]{8,}`)
 )
 
 // PrivacyService handles sensitive data redaction.
