@@ -1,110 +1,78 @@
-# Ursus 🐻
-> El cerebro externo para tus agentes de IA.
+# 🐻 Ursus: Tu Memoria Inteligente para Agentes de IA
 
-**Ursus** es un sistema de memoria persistente de nivel profesional diseñado para agentes de IA. Permite que tus asistentes (Claude, Cursor, Windsurf) recuerden decisiones, aprendizajes y contextos a través de múltiples sesiones de trabajo.
+**Ursus** es un sistema de memoria persistente de nivel profesional diseñado para agentes de IA (Cursor, Windsurf, Claude Desktop, etc.). Permite que tus asistentes recuerden decisiones, arquitecturas y lecciones aprendidas a través de múltiples sesiones y proyectos.
 
-![Ursus Banner](https://img.shields.io/badge/Status-100%25_Parity_with_Engram-blue?style=for-the-badge&logo=go)
+Inspirado en Engram, pero con una arquitectura robusta en Go, optimizada para velocidad y privacidad.
 
 ---
 
 ## 🛠️ Instalación (¿Cómo lo uso?)
 
-Ursus se distribuye como un **binario único y autocontenido**. Esto significa que **NO necesitas tener instalado Go** para usarlo.
+Para un "Usuario Final", Ursus se distribuye como un **binario único y autocontenido**. No necesitas instalar Go ni configurar variables del sistema a mano.
 
-### Opción A: Descargar el Binario (Recomendado)
-1. Ve a la sección de [Releases de GitHub](https://github.com/JoseGusnay/ursus/releases).
-2. Descarga la versión correspondiente a tu sistema operativo (Windows, Linux o macOS).
-3. **¡Nuevo! Instalación Automática**: Abre una terminal en la carpeta donde descargaste el archivo y ejecuta:
-   ```bash
-   ./ursus.exe setup path
-   ./ursus.exe setup claude
+### Opción A: Descarga Directa (Recomendado)
+1. Ve a [GitHub Releases](https://github.com/JoseGusnay/ursus/releases).
+2. Descarga `ursus_windows_amd64.exe` (o la versión para Mac/Linux).
+3. **¡Instalación Automática!**: Abre una terminal en la carpeta donde lo descargaste y ejecuta:
+   ```powershell
+   .\ursus_windows_amd64.exe setup path
    ```
-   *Esto añadirá Ursus a tu PATH y lo configurará en Claude Desktop automáticamente.*
-4. Descomprime el archivo y coloca el ejecutivo en una carpeta que esté en tu PATH (ej. `C:\Users\TuUsuario\bin\`).
+   *Esto añade Ursus a tu PATH de Windows automáticamente. Cierra y abre la terminal para activarlo.*
+4. **Cero Complicaciones**: Ahora puedes renombrar el archivo a `ursus.exe` y usarlo desde cualquier lugar simplemente escribiendo `ursus`.
 
 > [!NOTE]
-> **Aviso de Windows SmartScreen**: Al ejecutarlo por primera vez, es posible que Windows muestre un aviso de "PC protegido". Esto ocurre porque el binario no tiene una firma digital comercial (común en proyectos de código abierto). Solo debes hacer clic en **"Más información"** y luego en **"Ejecutar de todas formas"**.
+> **Aviso de SmartScreen**: Al abrirlo por primera vez, haz clic en "Más información" -> "Ejecutar de todas formas". Es normal por ser código abierto recién compilado.
 
-### Opción B: Instalación para Desarrolladores (Requiere Go)
-Si eres desarrollador y tienes Go instalado, puedes instalarlo directamente:
+### Opción B: Para Desarrolladores (Go Install)
 ```bash
 go install github.com/JoseGusnay/ursus/cmd/ursus@latest
 ```
-
-### 3. Verificar instalación
-```bash
-ursus stats
-```
-
----
-
-## 🏗️ Modelo de Memoria Híbrido
-
-Ursus resuelve el problema de "¿dónde se guardan los datos?" con un enfoque inteligente:
-
-1.  **Memoria Global (Personal)**: Por defecto, Ursus guarda todo en una base de datos maestra en `~/.ursus/ursus.db`. Esto permite que el agente te conozca a ti y a tus preferencias generales, sin importar en qué proyecto estés.
-2.  **Memoria de Proyecto (Local)**: Ursus permite "sincronizar" memorias con un proyecto específico. Al usar el comando `ursus sync`, el sistema empaqueta el conocimiento relevante en una carpeta `.ursus/` dentro de tu repositorio. Esto permite que otros desarrolladores del mismo proyecto compartan el contexto.
 
 ---
 
 ## 🤖 Configuración de Agentes (Agent Setup)
 
-Para que Ursus sea útil, debes conectarlo a tus herramientas favoritas. Sigue estos pasos según tu agente:
-
 ### 1. Claude Desktop
-Añade lo siguiente a tu archivo `claude_desktop_config.json` (ubicado en `%APPDATA%\Claude\config\` en Windows):
-
-```json
-{
-  "mcpServers": {
-    "ursus": {
-      "command": "ursus",
-      "args": ["mcp"]
-    }
-  }
-}
+Configúralo automáticamente con un comando:
+```bash
+ursus setup claude
 ```
 
-### 2. Cursor / Windsurf
-1. Ve a **Settings** -> **Features** -> **MCP**.
+### 2. Cursor / Windsurf / VS Code
+1. Ve a **Settings -> Features -> MCP**.
 2. Añade un nuevo servidor:
    - **Name**: `ursus`
    - **Type**: `command`
    - **Command**: `ursus mcp`
 
-### 3. VS Code (Copilot / Claude Code)
-Si usas extensiones que consumen MCP:
-1. Asegúrate de que `ursus` esté en tu `$PATH`.
-2. Registra el comando `ursus mcp` en la sección de servidores MCP de la extensión.
+---
+
+## 🏗️ Modelo de Memoria Híbrido
+
+Ursus combina lo mejor de dos mundos:
+1.  **Memoria Global**: Guardada en `~/.ursus/ursus.db`. El agente te conoce a ti y tus preferencias en cualquier PC o proyecto.
+2.  **Memoria de Proyecto**: Sincroniza conocimientos específicos del repositorio mediante archivos `.jsonl.gz` Git-friendly usando `ursus sync`.
 
 ---
 
-## 🎮 Formas de Uso
+## 🎮 Comandos de la CLI
 
-### 1. Interfaz TUI (Exploración Visual)
-Ideal para revisar qué ha aprendido el agente de forma rápida y estética.
-```bash
-ursus tui
-```
-
-### 2. Gestión CLI (Control Total)
-- **Añadir aprendizaje**: `ursus add "El backend usa Clean Architecture" --topic "arch"`
-- **Ver estadísticas**: `ursus stats`
-- **Sincronizar con el repo**: `ursus sync`
-
-### 3. Captura Pasiva
-El agente puede guardar memorias automáticamente si en su respuesta incluye etiquetas como:
-```markdown
-### Aprendizajes
-- La configuración de CORS debe ir antes de las rutas.
-```
+| Comando | Descripción |
+| :--- | :--- |
+| `ursus stats` | Ver tu actividad, sesiones y temas recurrentes. |
+| `ursus tui` | Abre la interfaz visual azul interactiva. |
+| `ursus search` | Búsqueda semántica ultrarrápida en tu cerebro. |
+| `ursus add` | Guarda una memoria manual con tópicos. |
+| `ursus review` | Resume lo ocurrido en la sesión actual. |
+| `ursus setup` | Automatiza PATH y configuración de agentes. |
 
 ---
 
-## 🧩 Diferenciadores Clave
-- **Privacidad**: Filtra automáticamente contenido sensible marcado con `<private>`.
-- **Higiene**: Deduplicación automática para no llenar la DB de basura.
-- **Arquitectura**: Diseñado bajo **Clean Architecture**, lo que garantiza estabilidad y facilidad de expansión.
+## ✨ Diferenciadores Clave
+- **Privacidad**: Filtra automáticamente Tokens, API Keys y datos sensibles.
+- **Higiene**: Deduplicación dinámica (no guarda basura repetida).
+- **Velocidad**: Basado en SQLite con FTS5 para búsquedas instantáneas.
+- **Portabilidad**: Un solo archivo para todo.
 
 ---
 Developed with ❤️ by **Jose Gusnay & Antigravity**
