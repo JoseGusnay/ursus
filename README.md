@@ -9,13 +9,15 @@
 
 ## 🛠️ Instalación (¿Cómo lo uso?)
 
-Para un usuario final, Ursus se instala de forma global en el sistema para que esté disponible en cualquier terminal o proyecto.
+Ursus se distribuye como un **binario único y autocontenido**. Esto significa que **NO necesitas tener instalado Go** para usarlo.
 
-### 1. Requisitos
-- **Go 1.22** o superior.
+### Opción A: Descargar el Binario (Recomendado)
+1. Ve a la sección de [Releases de GitHub](https://github.com/JoseGusnay/ursus/releases).
+2. Descarga la versión correspondiente a tu sistema operativo (Windows, Linux o macOS).
+3. Descomprime el archivo y coloca el ejecutivo en una carpeta que esté en tu PATH (ej. `C:\Users\TuUsuario\bin\`).
 
-### 2. Instalación Global
-Ejecuta el siguiente comando para instalar el binario `ursus` en tu carpeta `GOBIN`:
+### Opción B: Instalación para Desarrolladores (Requiere Go)
+Si eres desarrollador y tienes Go instalado, puedes instalarlo directamente:
 ```bash
 go install github.com/JoseGusnay/ursus/cmd/ursus@latest
 ```
