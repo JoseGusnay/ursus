@@ -4,7 +4,12 @@ import (
 	"regexp"
 )
 
-var privateRegex = regexp.MustCompile(`(?s)<private>.*?</private>`)
+var (
+	privateRegex = regexp.MustCompile(`(?s)<private>.*?</private>`)
+	emailRegex   = regexp.MustCompile(`[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}`)
+	// Pattern for potential API keys or tokens (e.g., sk-..., secret_..., token-...)
+	secretRegex  = regexp.MustCompile(`(?i)(sk-|secret_|token-|key-)[a-z0-9]{10,}`)
+)
 
 // PrivacyService handles sensitive data redaction.
 type PrivacyService struct{}
@@ -14,7 +19,10 @@ func NewPrivacyService() *PrivacyService {
 	return &PrivacyService{}
 }
 
-// Redact replaces any content within <private> tags with [REDACTED].
+// Redact replaces any sensitive content with [REDACTED].
 func (s *PrivacyService) Redact(content string) string {
-	return privateRegex.ReplaceAllString(content, "[REDACTED]")
+	content = privateRegex.ReplaceAllString(content, "[REDACTED]")
+	content = emailRegex.ReplaceAllString(content, "[EMAIL_REDACTED]")
+	content = secretRegex.ReplaceAllString(content, "[SECRET_REDACTED]")
+	return content
 }

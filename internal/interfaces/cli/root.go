@@ -141,14 +141,63 @@ var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all memories",
 	Run: func(cmd *cobra.Command, args []string) {
+		limit, _ := cmd.Flags().GetInt("limit")
 		results, err := svc.List(context.Background())
 		if err != nil {
 			fmt.Printf("Error: %v\n", err)
 			return
 		}
+		
+		displayed := 0
 		for _, r := range results {
+			if limit > 0 && displayed >= limit {
+				break
+			}
 			fmt.Printf("[%s] ID: %s\n%s\n---\n", r.CreatedAt.Format("2006-01-02"), r.ID, r.Content)
+			displayed++
 		}
+	},
+}
+
+var deleteCmd = &cobra.Command{
+	Use:   "delete [id]",
+	Short: "Delete a memory by its ID",
+	Args:  cobra.ExactArgs(1),
+	Run: func(cmd *cobra.Command, args []string) {
+		if err := svc.Delete(context.Background(), args[0]); err != nil {
+			fmt.Printf("Error: %v\n", err)
+			return
+		}
+		fmt.Println("Memory deleted successfully (soft-delete).")
+	},
+}
+
+var updateCmd = &cobra.Command{
+	Use:   "update [id] [content]",
+	Short: "Update an existing memory content",
+	Args:  cobra.MinimumNArgs(1),
+	Run: func(cmd *cobra.Command, args []string) {
+		id := args[0]
+		mem, err := svc.GetByID(context.Background(), id)
+		if err != nil || mem == nil {
+			fmt.Println("Memory not found.")
+			return
+		}
+
+		if len(args) > 1 {
+			mem.Content = args[1]
+		}
+		
+		metadata, _ := cmd.Flags().GetString("metadata")
+		if metadata != "" {
+			mem.Metadata = metadata
+		}
+
+		if err := svc.Update(context.Background(), mem); err != nil {
+			fmt.Printf("Error: %v\n", err)
+			return
+		}
+		fmt.Println("Memory updated successfully.")
 	},
 }
 
@@ -315,6 +364,8 @@ func init() {
 	RootCmd.AddCommand(statsCmd)
 	RootCmd.AddCommand(detailCmd)
 	RootCmd.AddCommand(setupCmd)
+	RootCmd.AddCommand(deleteCmd)
+	RootCmd.AddCommand(updateCmd)
 
 	sessionCmd.AddCommand(sessionStartCmd)
 	sessionCmd.AddCommand(sessionEndCmd)
@@ -322,4 +373,6 @@ func init() {
 	apiCmd.Flags().StringP("port", "p", "8080", "Port to listen on")
 	addCmd.Flags().StringP("metadata", "m", "", "Optional metadata for the memory")
 	addCmd.Flags().StringP("topic", "t", "", "Optional topic key for upserts")
+	listCmd.Flags().IntP("limit", "l", 0, "Limit the number of results")
+	updateCmd.Flags().StringP("metadata", "m", "", "New metadata for the memory")
 }
